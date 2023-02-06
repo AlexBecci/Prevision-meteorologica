@@ -1,11 +1,11 @@
-import NavBar from './components/NavBar';
-import WeatherPanel from './components/WeatherPanel';
+import Footer from "./components/Footer";
+import WeatherPanel from "./components/WeatherPanel";
 
 function App() {
   return (
-    <div className="App">
-      <NavBar/>
-      <WeatherPanel/>
+    <div className="App bg-slate-900">
+      <WeatherPanel />
+      <Footer/>
     </div>
   );
 }
