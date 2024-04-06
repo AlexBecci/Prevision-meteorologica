@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "./Form";
 import Card from "./Card";
+import axios from 'axios';
 
 function WeatherPanel() {
   let urlWeather =
@@ -14,16 +15,14 @@ function WeatherPanel() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [location, setLocation] = useState("");
-
   const getLocation = async (loc) => {
     setLoading(true);
     setLocation(loc);
-
+    console.log('localidad, ', loc)
     //Weather
     urlWeather = urlWeather + urlCity + loc;
-
     //Apifetch
-    await fetch(urlWeather)
+    /* await fetch(urlWeather)
       .then((response) => {
         if (!response.ok) throw { response };
         return response.json();
@@ -36,13 +35,24 @@ function WeatherPanel() {
         console.log(error);
         setLoading(false);
         setShow(false);
-      });
-
+      }); */
+    /* MANERA NUEVA */
+    try {
+      const response = await axios.get(urlWeather);
+      console.log(response)
+      const weatherData = response.data;
+      console.log(weatherData);
+      setWeather(weatherData);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setShow(false);
+    }
     //Forecast
     urlForecast = urlForecast + urlCity + loc;
 
     //Fetch
-    await fetch(urlForecast)
+    /* await fetch(urlForecast)
       .then((response) => {
         if (!response.ok) throw { response };
         return response.json();
@@ -58,7 +68,21 @@ function WeatherPanel() {
         console.log(error);
         setLoading(false);
         setShow(false);
-      });
+      }); */
+    /* Manera nueva */
+    try {
+      const response = await axios.get(urlForecast);
+      if (!response.data.ok) throw { response };
+      const forecastData = response.data.json();
+      console.log(forecastData);
+      setForecast(forecastData);
+      setLoading(false);
+      setShow(true);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setShow(false);
+    }
   };
 
   return (
